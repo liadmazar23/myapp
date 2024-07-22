@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask WebApp</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('{{ url_for('static', filename='background.jpg') }}') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Align items at the start */
+            height: 100vh;
+            margin: 0;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7); /* Slightly transparent background */
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 100px;
+            background-color: white; /* Background color for padding area */
+            padding: 10px; /* Add some padding around the image */
+            box-sizing: border-box;
+            border-radius: 10px;
+            margin: 10px;
+        }
+        .logo {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Ensures the image fits within the square without distortion */
+        }
+        .content h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .content p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .links {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .links a {
+            margin: 0 10px;
+        }
+        .self-description {
+            margin-top: 10px;
+        }
+        .cv-link {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .cv-section {
+            margin-top: 300px; /* Make it lower on the page */
+            width: 80%;
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.7); /* Slightly transparent background */
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            color: white;
+        }
+        .cv-image {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container content">
+        <h1>Hello world, here's my LinkedIn page and my GitHub</h1>
+        <p>Allow me to introduce myself</p>
+        <p>My name is Liad, 30 y/o from Central Israel</p>
+        <p class="self-description">Self-learned my way from law enforcement to Tech. An enthusiastic for Security and Cloud. Eager to pursue continuous learning and expanding knowledge. Experienced IT professional. Team-player, People-oriented and mission-driven. Searching for my next challenge in the DevOps Realm.</p>
+        <div class="links">
+            <a href="https://www.linkedin.com/in/liad-mazar/" target="_blank">
+                <div class="logo-container">
+                    <img src="{{ url_for('static', filename='linkedin.png') }}" alt="LinkedIn" class="logo">
+                </div>
+            </a>
+            <a href="https://github.com/liadmazar23/myapp" target="_blank">
+                <div class="logo-container">
+                    <img src="{{ url_for('static', filename='github.png') }}" alt="GitHub" class="logo">
+                </div>
+            </a>
+        </div>
+        <div class="cv-link">
+            <a href="#cv" class="btn btn-light">Click here for CV</a>
+        </div>
+    </div>
+    <div id="cv" class="cv-section">
+        <img src="{{ url_for('static', filename='cv.png') }}" alt="CV Image" class="cv-image">
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        // Smooth scrolling for the CV link
+        document.querySelector('.cv-link a').addEventListener
