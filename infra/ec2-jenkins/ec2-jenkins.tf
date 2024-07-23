@@ -1,5 +1,9 @@
 provider "aws" {
-  region = "us-east-1"
+  region = var.aws_region
+}
+
+data "http" "external_ip" {
+  url = "http://ifconfig.me/ip"
 }
 
 resource "aws_security_group" "jenkins_sg" {
@@ -10,14 +14,14 @@ resource "aws_security_group" "jenkins_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["46.117.189.39/32"] 
+    cidr_blocks = ["${chomp(data.http.external_ip.body)}/32"] 
   }
 
   ingress {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
-    cidr_blocks = ["46.117.189.39/32"] 
+    cidr_blocks = ["${chomp(data.http.external_ip.body)}/32"] 
   }
 
   egress {
@@ -29,10 +33,10 @@ resource "aws_security_group" "jenkins_sg" {
 }
 
 resource "aws_instance" "jenkins" {
-  ami                    = "ami-0427090fd1714168b" # Amazon Linux 2 AMI
-  instance_type          = "t2.micro"
-  key_name               = "us-east-1-key" 
-  security_groups        = [aws_security_group.jenkins_sg.name]
+  ami                         = "ami-0427090fd1714168b" # Amazon Linux 2 AMI
+  instance_type               = var.instance_type
+  key_name                    = var.key_name
+  security_groups             = [aws_security_group.jenkins_sg.name]
   associate_public_ip_address = true
 
   user_data = <<-EOF
@@ -51,7 +55,7 @@ resource "aws_instance" "jenkins" {
               sleep 5
 
               # Pull and run the Jenkins Docker container
-              sudo docker run -d -p 8080:8080 -p 50000:50000 -e JENKINS_OPTS="--argumentsRealm.passwd.admin=admin --argumentsRealm.roles.user=admin" -e JAVA_OPTS="-Djenkins.install.runSetupWizard=false" jenkins/jenkins:lts
+              sudo docker run -d -p 8080:ls8080 -p 50000:50000 -e JENKINS_OPTS="--argumentsRealm.passwd.admin=admin --argumentsRealm.roles.user=admin" -e JAVA_OPTS="-Djenkins.install.runSetupWizard=false" jenkins/jenkins:lts
 
               # Check if Docker service is running
               sudo service docker status
