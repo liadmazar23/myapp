@@ -51,9 +51,6 @@ resource "aws_instance" "jenkins" {
               # Start Docker service
               sudo service docker start
 
-              # Wait for Docker service to start
-              sleep 30
-
               # Pull and run the Jenkins Docker container
               sudo docker run -d -p 8080:8080 -p 50000:50000 -e JENKINS_OPTS="--argumentsRealm.passwd.admin=admin --argumentsRealm.roles.user=admin" -e JAVA_OPTS="-Djenkins.install.runSetupWizard=false" jenkins/jenkins:lts
 
